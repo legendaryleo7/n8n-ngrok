@@ -19,6 +19,7 @@ x-shared: &shared
     - redis
   volumes:
     - ./data/n8n:/home/node/.n8n
+    - /home/jetson/Developer/morning-worship-notes:/home/node/morning-worship-notes:rw
   depends_on:
     redis:
       condition: service_healthy
@@ -71,6 +72,7 @@ services:
       - n8n-network
     volumes:
       - ./data/n8n:/home/node/.n8n
+      - /home/jetson/Developer/morning-worship-notes:/home/node/morning-worship-notes:rw
 
   ngrok:
     container_name: ngrok
