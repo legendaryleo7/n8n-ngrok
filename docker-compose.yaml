@@ -1,6 +1,6 @@
 x-shared: &shared
   restart: always
-  image: docker.n8n.io/n8nio/n8n
+  image: n8n-jetson-pytorch:latest
   environment:
     - DB_TYPE=postgresdb
     - DB_POSTGRESDB_HOST=postgres
@@ -59,9 +59,10 @@ services:
   n8n:
     <<: *shared
     container_name: n8n
-    image: docker.n8n.io/n8nio/n8n
+    build:
+      context: ./n8n
+      dockerfile: Dockerfile
     environment:
-      - WEBHOOK_URL=${URL}
       - TZ=${TIMEZONE}
       - GENERIC_TIMEZONE=${TIMEZONE}
       - N8N_DEFAULT_BINARY_DATA_MODE=filesystem
@@ -88,7 +89,7 @@ services:
 
   n8n-worker:
     <<: *shared
-    command: worker
+    command: ["n8n","worker"]
     depends_on:
       - n8n
 
